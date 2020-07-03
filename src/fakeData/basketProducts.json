@@ -1,0 +1,59 @@
+{
+    "0": {
+        "groupId": "0",
+        "groupKey": null,
+        "groupType": null,
+        "items": [{
+            "itemId": "28d77da5-da4b-405e-bc93-b0cc43bd598b",
+            "itemName": "測試-無活動-01",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001174/1174931/1174931_LM.jpg?t=769023681",
+            "price": 100
+        }, {
+            "itemId": "28d77da5-da4b-405e-bc93-b0cc43bd599b",
+            "itemName": "測試-無活動-02",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001174/1174585/1174585_LM.jpg?t=769159284",
+            "price": 102
+        }]
+    },
+    "Campaign_P": {
+        "groupId": "Campaign_40714",
+        "groupKey": "40714",
+        "groupType": "Campaign_P",
+        "items": [{
+            "itemId": "cc811015-941a-44c4-ba8c-dffa772d36ae",
+            "itemName": "測試-M件N元-01",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001174/1174597/1174597_LM.jpg?t=769160092",
+            "price": 505
+        }],
+        "name": "M件N元 - 一般/超取"
+    },
+    "Campaign_GG": {
+        "groupId": "Campaign_99",
+        "groupKey": "99",
+        "groupType": "Campaign_GG",
+        "items": [{
+            "itemId": "6ff39a8a-80db-47ed-b1d0-af55ce9e8548",
+            "itemName": "測試-滿額加價購-01",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001173/1173838/1173838_LM.jpg?t=768588203",
+            "price": 99
+        }, {
+            "itemId": "6ff39a8a-80db-47ed-b1d0-af55ce9e8549",
+            "itemName": "測試-滿額加價購-02",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001174/1174582/1174582_LM.jpg?t=769160127",
+            "price": 305
+        }],
+        "name": "滿額加價購-一般"
+    },
+    "Campaign_GT": {
+        "groupId": "Campaign_39968",
+        "groupKey": "39968",
+        "groupType": "Campaign_GT",
+        "items": [{
+            "itemId": "56d1c4ec-4e58-42f9-840f-34ba1e4a5303",
+            "itemName": "測試-滿額贈-01",
+            "itemImg": "//cdn-lab.etzone.net/NXimg/001174/1174587/1174587_LM.jpg?t=769159726",
+            "price": 75
+        }],
+        "name": "滿額贈-一般"
+    }
+}
