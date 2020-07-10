@@ -1,12 +1,6 @@
 
 import React from 'react';
 import styled from '@emotion/styled'
-import BasketDefaultComponents from './BasketDefaultComponents';
-
-const {
-    DefaultGroupHeader,
-    DefaultGroupFooter
-} = BasketDefaultComponents;
 
 const ENUM = {
     NORMAL_ITEM: '0'
@@ -15,37 +9,43 @@ const ENUM = {
 const GroupHeader = ({ groupData }) => {
     if (groupData.groupId === ENUM.NORMAL_ITEM) return null;
     return (
-        <DefaultGroupHeader name={groupData.name} groupType={groupData.groupType} />
+        <div className="group-header">
+            {`${groupData.name}`}<strong>{`(${groupData.groupType})`}</strong>
+        </div>
     )
 }
 
-const GroupFooter = ({ groupData, footer }) => {
+const GroupFooter = ({ groupData, groupFooter }) => {
     if (groupData.groupId === ENUM.NORMAL_ITEM) return null;
-   
     return (
         <GroupFooterContainer>
-            {footer || <DefaultGroupFooter />}
+            {groupFooter || <div>
+                我是從 BasketProductGroup 來的預設 groupFooter。
+            </div>}
         </GroupFooterContainer>
     )
 }
 
 const BasketProductGroup = (props) => {
     const {
+        groupProps = {},
+        entityProps = {},
         groupData,
         groupKey,
-        children,
-        footer,
-        render
+        children
     } = props;
 
+    const { groupFooter } = groupProps;
+    
     return (
-        <ProductList>
-            {render || <React.Fragment>
-                    <GroupHeader groupData={groupData} groupKey={groupKey} />
-                    {children}
-                    <GroupFooter groupData={groupData} footer={footer} />
-                </React.Fragment>
-            }
+        <ProductList>      
+            <GroupHeader groupData={groupData} groupKey={groupKey} />
+            {React.Children.map(children, (child) => {
+                return (
+                    React.cloneElement(child, { entityProps })
+                )
+            })}
+            <GroupFooter groupData={groupData} groupFooter={groupFooter} />
         </ProductList>
     )
 }

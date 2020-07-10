@@ -1,14 +1,12 @@
 import React from 'react';
 import CampaignGGEnhance from '../useCase/CampaignGGEnhance';
 import CampaignGTEnhance from '../useCase/CampaignGTEnhance';
-import BasketEntityEnhance from '../useCase/BasketEntityEnhance';
 import BasketProductGroup from './BasketProductGroup';
 import BasketProductEntity from './BasketProductEntity';
 
 const basketComponentsFactory = (function() {
     const BasketComponentsFactory = function() {
-        let Group = null;
-        let Entity = null;
+        let HOCGroup = null;
 
         const BasketProductList = ({ data }) => {
             return (
@@ -21,32 +19,32 @@ const basketComponentsFactory = (function() {
                                         let groupData = { ...data.basketProducts[basketGroupKey] };
                                         switch (groupData.groupType) {
                                             case 'Campaign_GT':
-                                                Group = CampaignGTEnhance(BasketProductGroup);
+                                                HOCGroup = CampaignGTEnhance(BasketProductGroup);
                                                 break;
                                             case 'Campaign_GG':
-                                                Group = CampaignGGEnhance(BasketProductGroup);
+                                                HOCGroup = CampaignGGEnhance(BasketProductGroup);
                                                 break;
                                             default:
-                                                Group = BasketProductGroup
+                                                HOCGroup = BasketProductGroup;
                                                 break;
                                         }
 
+                                        let entityItems = data.basketProducts[basketGroupKey].items;
                                         return (
-                                            <Group
+                                            <HOCGroup
                                                 key={"BasketProductGroup_" + basketGroupKey}
                                                 groupData={groupData}
                                                 groupKey={basketGroupKey}
                                             >
-                                                {data.basketProducts[basketGroupKey].items.map((item, index) => {
-                                                    Entity = BasketEntityEnhance(BasketProductEntity);
+                                                {entityItems.map((item, index) => {
                                                     return (
-                                                        <Entity
+                                                        <BasketProductEntity
                                                             key={index}
                                                             item={item}
                                                         />
                                                     )
                                                 })}
-                                            </Group>
+                                            </HOCGroup>
                                         );
                                     }
                                     else return null
