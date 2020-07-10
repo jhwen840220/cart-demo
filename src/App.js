@@ -3,7 +3,6 @@ import './App.css';
 import basketComponentsFactory from './components/basketComponentsFactory';
 import { ThemeProvider } from 'emotion-theming'
 import basketProducts from './fakeData/basketProducts.json'
-
 const App = () => {
   const [basketProductData, setBasketProductData] = useState({});
   const {

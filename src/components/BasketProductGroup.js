@@ -1,9 +1,32 @@
 
 import React from 'react';
 import styled from '@emotion/styled'
-import logo from '../logo.svg'
+import BasketDefaultComponents from './BasketDefaultComponents';
+
+const {
+    DefaultGroupHeader,
+    DefaultGroupFooter
+} = BasketDefaultComponents;
+
 const ENUM = {
     NORMAL_ITEM: '0'
+}
+
+const GroupHeader = ({ groupData }) => {
+    if (groupData.groupId === ENUM.NORMAL_ITEM) return null;
+    return (
+        <DefaultGroupHeader name={groupData.name} groupType={groupData.groupType} />
+    )
+}
+
+const GroupFooter = ({ groupData, footer }) => {
+    if (groupData.groupId === ENUM.NORMAL_ITEM) return null;
+   
+    return (
+        <GroupFooterContainer>
+            {footer || <DefaultGroupFooter />}
+        </GroupFooterContainer>
+    )
 }
 
 const BasketProductGroup = (props) => {
@@ -11,45 +34,18 @@ const BasketProductGroup = (props) => {
         groupData,
         groupKey,
         children,
-        footer
+        footer,
+        render
     } = props;
-    let groupFooter = false;
-
-    if (groupData.groupId != 0) {
-        groupFooter = footer ? footer :
-            <div>
-                我是從 BasketProductGroup 來的預設 groupFooter。
-            </div>
-    }
 
     return (
         <ProductList>
-            {groupData.groupId === ENUM.NORMAL_ITEM ?
-                null :
-                <div key={"groupHeader_" + groupKey} className="group-header">
-                    {`${groupData.name}`}<strong>{`(${groupData.groupType})`}</strong>
-                </div>
+            {render || <React.Fragment>
+                    <GroupHeader groupData={groupData} groupKey={groupKey} />
+                    {children}
+                    <GroupFooter groupData={groupData} footer={footer} />
+                </React.Fragment>
             }
-            {children ?
-                React.Children.map(children, (child) => {
-                    /** 判斷產出的 productDetailUI */
-                    const productDetailUI = child.props && child.props.productDetailUI
-                        ? child.props.productDetailUI
-                        : (
-                            <BasketProductDetail>
-                                <div className="img-block" style={{backgroundImage: `url(${child.props.item ? child.props.item.itemImg : logo})`}} />
-                            </BasketProductDetail>
-                        )
-                    /** 規範 return 出的資料(此 demo 不考慮 kit) */
-                    const returnItem = React.cloneElement(child, {
-                        productDetailUI: productDetailUI,
-                    })
-
-                    return returnItem
-
-                }) : false
-            }
-            {groupFooter && <GroupFooter>{groupFooter}</GroupFooter>}
         </ProductList>
     )
 }
@@ -76,18 +72,7 @@ const ProductList = styled.div`
         }
     }
 `
-
-const BasketProductDetail = styled.div`
-    .img-block {
-        width: 80px;
-        height: 80px;
-        border: 1px solid #DCDCDC;
-        background-repeat: no-repeat;
-        background-position: center;
-    }
-`
-
-const GroupFooter = styled.div`
+const GroupFooterContainer = styled.div`
     padding: 8px;
     font-size: 14px;
 `

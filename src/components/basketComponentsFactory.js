@@ -1,19 +1,16 @@
 import React from 'react';
-import BasketEnhances from '../useCase/BasketEnhances';
 import CampaignGGEnhance from '../useCase/CampaignGGEnhance';
 import CampaignGTEnhance from '../useCase/CampaignGTEnhance';
-import BasketPasswordCouponEnhance from '../useCase/BasketPasswordCouponEnhance';
+import BasketEntityEnhance from '../useCase/BasketEntityEnhance';
 import BasketProductGroup from './BasketProductGroup';
 import BasketProductEntity from './BasketProductEntity';
 
-
 const basketComponentsFactory = (function() {
-
     const BasketComponentsFactory = function() {
-        const BasketProductWithEnhances = BasketEnhances(BasketProductEntity);
-        const BasketProductGroupWithEnhances = BasketEnhances(BasketProductGroup);
+        let Group = null;
+        let Entity = null;
 
-        const BasketProductList = ({data}) => {
+        const BasketProductList = ({ data }) => {
             return (
                 <div>
                     { Object.keys(data.basketProducts).length ?
@@ -22,39 +19,37 @@ const basketComponentsFactory = (function() {
                                 Object.keys(data.basketProducts).map(basketGroupKey => {
                                     if (data.basketProducts[basketGroupKey] && data.basketProducts[basketGroupKey].items) {
                                         let groupData = { ...data.basketProducts[basketGroupKey] };
-                                        let groupDecorators = [];
                                         switch (groupData.groupType) {
                                             case 'Campaign_GT':
-                                                groupDecorators.push(CampaignGTEnhance);
+                                                Group = CampaignGTEnhance(BasketProductGroup);
                                                 break;
                                             case 'Campaign_GG':
-                                                groupDecorators.push(CampaignGGEnhance);
+                                                Group = CampaignGGEnhance(BasketProductGroup);
                                                 break;
                                             default:
+                                                Group = BasketProductGroup
                                                 break;
                                         }
 
                                         return (
-                                            <BasketProductGroupWithEnhances
+                                            <Group
                                                 key={"BasketProductGroup_" + basketGroupKey}
                                                 groupData={groupData}
                                                 groupKey={basketGroupKey}
-                                                decorators={groupDecorators}
                                             >
                                                 {data.basketProducts[basketGroupKey].items.map((item, index) => {
-                                                    let decorators = [];
-                                                    decorators.push(BasketPasswordCouponEnhance);
+                                                    Entity = BasketEntityEnhance(BasketProductEntity);
                                                     return (
-                                                        <BasketProductWithEnhances
+                                                        <Entity
                                                             key={index}
-                                                            decorators={decorators}
                                                             item={item}
                                                         />
                                                     )
                                                 })}
-                                            </BasketProductGroupWithEnhances>
+                                            </Group>
                                         );
                                     }
+                                    else return null
                                 })
                             }
                         </div> :
